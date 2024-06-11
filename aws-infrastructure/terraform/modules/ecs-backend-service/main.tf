@@ -1,7 +1,7 @@
 ################ ecs-task-role ################
 
 resource "aws_iam_role" "ecs_task_role" {
-  name = "backend-ecs-task-role-${var.region}"
+  name = "backend-ecs-task-role-${var.region}-v1"
   assume_role_policy = file("../../../policies/ecs-assume-role-policy.json")
 }
 
@@ -11,7 +11,7 @@ resource "aws_secretsmanager_secret" "secrets_manager" {
 }
 
 resource "aws_iam_policy" "ecs_task_role_policy" {
-  name = "backend-ecs-task-role-policy-${var.region}"
+  name = "backend-ecs-task-role-policy-${var.region}-v1"
   policy = templatefile("../../../policies/ecs-task-role-policy.tpl", {
     secrets_manager_resources = [ aws_secretsmanager_secret.secrets_manager.arn ]
     region = var.region
@@ -27,12 +27,12 @@ resource "aws_iam_role_policy_attachment" "ecs_task_role_attach" {
 ################ ecs-execution-role ################
 
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "backend-ecs-execution-role-${var.region}"
+  name = "backend-ecs-execution-role-${var.region}-v1"
   assume_role_policy = file("../../../policies/ecs-assume-role-policy.json")
 }
 
 resource "aws_iam_policy" "ecs_execution_role_policy" {
-  name = "backend-ecs-execution-role-policy-${var.region}"
+  name = "backend-ecs-execution-role-policy-${var.region}-v1"
   policy = templatefile("../../../policies/ecs-execution-role-policy.tpl", {
     secrets_manager_resources = [ aws_secretsmanager_secret.secrets_manager.arn ]
   })
